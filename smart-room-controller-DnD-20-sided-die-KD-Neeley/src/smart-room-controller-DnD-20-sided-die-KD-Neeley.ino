@@ -1,83 +1,86 @@
 /*
  * Project smart-room-controller-DnD-20-sided-die-KD-Neeley
  * Description: Room Controller in the form of a D20 die
- *              Indicate battery charge percentage
- *                  Green = 100% steady light
- *                  Green = 75% - 99% blinks
- *                  Blue = 51% - 74%
- *                  Purple = 11% - 50%
- *                  Red = Steady Light 10%-6%
- *                  Red = blinking = 0%-5%
- * 
- *                  Roll = 1: Get Rotation
- *                            Print Roll to OLED
- *                            Red Flickering Lights, DOOM!
- *                            Turn on Wemo Switches (x2)
- *                  Roll = 2: Get Rotation
- *                            Print Roll to OLED
- *                             Red & Orange Flame Lights
- *                  Roll = 3: Get Rotation
- *                            Print Roll to OLED
- *                             Yellow Flame Light
- *                  Roll = 4: Get Rotation
- *                            Print Roll to OLED
- *                              Red & Magenta Flickering Lights
- *                  Roll = 5: Get Rotation
- *                            Print Roll to OLED
- *                              Yellow & Red Lights
- *                  Roll = 6: Get Rotation
- *                            Print Roll to OLED
- *                              Red & Cyan Lights
- *                  Roll = 7: Get Rotation
- *                            Print Roll to OLED
- *                              Green & Yellow Lights
- *                  Roll = 8: Get Rotation
- *                            Print Roll to OLED
- *                            Blue, Green & Yellow Lights
- *                  Roll = 9: Get Rotation
- *                            Print Roll to OLED
- *                             Orange & Green Lights
- *                  Roll =10: Get Rotation
- *                            Print Roll to OLED
- *                             Blue & Cyan Lights
- *                  Roll =11: Get Rotation
- *                            Print Roll to OLED
- *                              Purple & Cyan Lights
- *                  Roll =12: Get Rotation
- *                            Print Roll to OLED
- *                              Pink & Green Lights
- *                  Roll =13: Get Rotation
- *                            Print Roll to OLED
- *                              Blue, Cyan & Purple Lights
- *                  Roll =14: Get Rotation
- *                            Print Roll to OLED
- *                              Orange & Purple Lights
- *                  Roll =15: Get Rotation
- *                            Print Roll to OLED
- *                            Magenta, Pink, and Orange Lights
- *                  Roll =16: Get Rotation
- *                            Print Roll to OLED
- *                            Green Lights
- *                  Roll =17: Get Rotation
- *                            Print Roll to OLED
- *                            Green & Yellow Lights
- *                  Roll =18: Get Rotation
- *                            Print Roll to OLED
- *                            Blue & Green Lights
- *                  Roll =19: Get Rotation
- *                            Print Roll to OLED
- *                            Magenta, Purple & Green Lights
- *                  Roll =20: Get Rotation
- *                            Print Roll to OLED
- *                            Rainbow Lights, random colors, excitement!
- *                            Turn on Wemo Switches (x2)
- *                  
- *                               
- *         
- *                  
- * Author: Katie Neeley
- * Date: 03/06/2023
- */
+			* 	ACCELEROMETER
+				The MPU6050 combines a 3-axis gyroscope and a 3-axis accelerometer on the same silicon die together 
+			*  with an onboard Digital Motion Processor(DMP) which processes complex 6-axis MotionFusion algorithms.*/
+//  *              Indicate battery charge percentage
+//  *                  Green = 100% steady light
+//  *                  Green = 75% - 99% blinks
+//  *                  Blue = 51% - 74%
+//  *                  Purple = 11% - 50%
+//  *                  Red = Steady Light 10%-6%
+//  *                  Red = blinking = 0%-5%
+//  * 
+//  *                  Roll = 1: Get Rotation
+//  *                            Print Roll to OLED
+//  *                            Red Flickering Lights, DOOM!
+//  *                            Turn on Wemo Switches (x2)
+//  *                  Roll = 2: Get Rotation
+//  *                            Print Roll to OLED
+//  *                             Red & Orange Flame Lights
+//  *                  Roll = 3: Get Rotation
+//  *                            Print Roll to OLED
+//  *                             Yellow Flame Light
+//  *                  Roll = 4: Get Rotation
+//  *                            Print Roll to OLED
+//  *                              Red & Magenta Flickering Lights
+//  *                  Roll = 5: Get Rotation
+//  *                            Print Roll to OLED
+//  *                              Yellow & Red Lights
+//  *                  Roll = 6: Get Rotation
+//  *                            Print Roll to OLED
+//  *                              Red & Cyan Lights
+//  *                  Roll = 7: Get Rotation
+//  *                            Print Roll to OLED
+//  *                              Green & Yellow Lights
+//  *                  Roll = 8: Get Rotation
+//  *                            Print Roll to OLED
+//  *                            Blue, Green & Yellow Lights
+//  *                  Roll = 9: Get Rotation
+//  *                            Print Roll to OLED
+//  *                             Orange & Green Lights
+//  *                  Roll =10: Get Rotation
+//  *                            Print Roll to OLED
+//  *                             Blue & Cyan Lights
+//  *                  Roll =11: Get Rotation
+//  *                            Print Roll to OLED
+//  *                              Purple & Cyan Lights
+//  *                  Roll =12: Get Rotation
+//  *                            Print Roll to OLED
+//  *                              Pink & Green Lights
+//  *                  Roll =13: Get Rotation
+//  *                            Print Roll to OLED
+//  *                              Blue, Cyan & Purple Lights
+//  *                  Roll =14: Get Rotation
+//  *                            Print Roll to OLED
+//  *                              Orange & Purple Lights
+//  *                  Roll =15: Get Rotation
+//  *                            Print Roll to OLED
+//  *                            Magenta, Pink, and Orange Lights
+//  *                  Roll =16: Get Rotation
+//  *                            Print Roll to OLED
+//  *                            Green Lights
+//  *                  Roll =17: Get Rotation
+//  *                            Print Roll to OLED
+//  *                            Green & Yellow Lights
+//  *                  Roll =18: Get Rotation
+//  *                            Print Roll to OLED
+//  *                            Blue & Green Lights
+//  *                  Roll =19: Get Rotation
+//  *                            Print Roll to OLED
+//  *                            Magenta, Purple & Green Lights
+//  *                  Roll =20: Get Rotation
+//  *                            Print Roll to OLED
+//  *                            Rainbow Lights, random colors, excitement!
+//  *                            Turn on Wemo Switches (x2)
+//  *                  
+//  *                               
+//  *         
+//  *                  
+//  * Author: Katie Neeley
+//  * Date: 03/06/2023
+//  */
 
 #include "Wire.h"
 #include <neopixel.h>
@@ -88,9 +91,10 @@
 #include "wemo.h"
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include <MPU6050.h>
-#include <I2Cdev.h>
+#include <MPU6050_CNM.h>
 
+
+//GLOBALS
 // //OLED
 const int OLED_RESET = D4;
 // //NEOPIXEL
@@ -100,15 +104,12 @@ const int PIXELPIN = D8;
 const int MRWEMO = 3;
 const int MSWEMO = 1;
 // //ACCELEROMETER
-const int MPUADDRESS = 0x68;
-bool setAccelX;
-bool getAccelX;
-bool setAccelY;
-bool getAccelY;
-bool setAccelZ;
-bool getAccelZ;
-uint8_t accelRange;
-uint8_t scaleGyroRange;
+const byte MPUADDRESS = 0x68;
+const byte FS = 0;
+float aX, aY, aZ;
+float acceleration[3];
+unsigned int now, before;
+float scalingFactor;
 
 // //HUE
 bool hueOnOff;
@@ -116,13 +117,8 @@ bool hueOnOff;
 // //DICE
 int roll;
 
-// //ACCELEROMETER MPU6050
-// //accelerometer axis
-// uint8_t *ax, *ay, *az;
-// //gyroscope axis
-// uint8_t *gx, *gy, *gz;
-// // MPU6050BB d20DiceRoller;
 
+//OBJECT DECLARATIONS
 // //OLED
 Adafruit_SSD1306 myDisplay(OLED_RESET); 
 // // //NEOPIXEL
@@ -130,7 +126,9 @@ Adafruit_NeoPixel pixel(PIXELCOUNT, PIXELPIN, WS2812B);
 // // //ACCELEROMETER
 // // MPU6050 d20roller(0x68);
 
+//ARRAYS
 
+//TESTING THE OLED
 // //Ode to Mr. Robot below
 // //OLED Bitmap Test
 const unsigned char fSocietyBitmap [] PROGMEM = {
@@ -1762,31 +1760,32 @@ const unsigned char killUmAll [1024] PROGMEM = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
+
+
+
 // SYSTEM_MODE(MANUAL);
 SYSTEM_MODE(SEMI_AUTOMATIC);
-// //ACCELEROMETER
-// /*The MPU6050 combines a 3-axis gyroscope and a 3-axis accelerometer on the same silicon die together 
-//     with an onboard Digital Motion Processor(DMP) which processes complex 6-axis MotionFusion algorithms.*/
-
 
 
 void setup() {
     Serial.begin(9600);
     waitFor(Serial.isConnected, 10000);
 
+//MPU6050 ACCELEROMETER
+	scalingFactor = mpuBegin(MPUADDRESS, FS);
    
 
-//HUE & WEMO
-    // WiFi.on();
-    // WiFi.setCredentials("IoTNetwork");
+// HUE & WEMO
+    WiFi.on();
+    WiFi.setCredentials("IoTNetwork");
     // WiFi.setCredentials("DRWIFI");
 
-    // WiFi.connect();
-    // while(WiFi.connecting()){
-    // Serial.printf(".");
-    // }
-    // delay(1000);
-    // Serial.printf("\n\n");
+    WiFi.connect();
+    while(WiFi.connecting()){
+    Serial.printf(".");
+    }
+    delay(1000);
+    Serial.printf("\n\n");
 
 //NEOPIXEL
     pixel.begin();
@@ -1802,47 +1801,64 @@ void setup() {
 //////////BEGIN/////////
 
 void loop() {
+
+//MPU6050 ACCELEROMETER
+	now = millis();
+	if (now - before > 2500) {
+		getAccArray(MPUADDRESS, acceleration);
+		Serial.printf("Acceleration Data (in G's): x=%0.3f, y=%0.3f, z=%0.3f\n", acceleration[0], acceleration[1], acceleration[2]);
+		myDisplay.setRotation(2); 
+		myDisplay.setCursor(8,1);
+		myDisplay.setTextSize(1);
+		myDisplay.setTextColor(WHITE);
+		myDisplay.printf("X= %0.3f\n Y= %0.3f\n Z= %0.3f\n", acceleration[0], acceleration[1], acceleration[2]);
+		myDisplay.display();
+		// delay(16000);
+		myDisplay.clearDisplay();
+		now = before;
+	}
+
 //Display DnD Title on the OLED
-    myDisplay.setRotation(2); //0-3
-    myDisplay.setCursor(0,0);
-  	myDisplay.drawBitmap(0, 0, dNdTitle, 128, 64, WHITE);
-	myDisplay.display();
-    delay(1000);
-    myDisplay.clearDisplay();
+    // myDisplay.setRotation(2); //0-3
+    // myDisplay.setCursor(0,0);
+  	// myDisplay.drawBitmap(0, 0, dNdTitle, 128, 64, WHITE);
+	// myDisplay.display();
+    // delay(1000);
+    // myDisplay.clearDisplay();
 
 //if loading program
 //show in Time... bitmap on OLED (somehow).
 
-            myDisplay.setRotation(2); //0-3
-            myDisplay.setCursor(0,0);
-            myDisplay.drawBitmap(0, 0, inTime, 128, 64, WHITE);
-            myDisplay.display();
-            delay(1000);
-            myDisplay.clearDisplay();
+            // myDisplay.setRotation(2); //0-3
+            // myDisplay.setCursor(0,0);
+            // myDisplay.drawBitmap(0, 0, inTime, 128, 64, WHITE);
+            // myDisplay.display();
+            // delay(1000);
+            // myDisplay.clearDisplay();
 
 //if ready show ready bitmap to show you can roll
 //Turn NeoPIxel green
 //Turn Hue Light green
-            myDisplay.setRotation(2); //0-3
-            myDisplay.setCursor(0,0);
-            myDisplay.drawBitmap(0, 0, ready, 128, 64, WHITE);
-            myDisplay.display();
-            delay(1000);
-            myDisplay.clearDisplay();
+            // myDisplay.setRotation(2); //0-3
+            // myDisplay.setCursor(0,0);
+            // myDisplay.drawBitmap(0, 0, ready, 128, 64, WHITE);
+            // myDisplay.display();
+            // delay(1000);
+            // myDisplay.clearDisplay();
 
 //OLED TESTS
-    myDisplay.setRotation(3); //0-3
-    myDisplay.setCursor(10,1);
-  	myDisplay.drawBitmap(0, 0, fSocietyBitmap, 64, 128, WHITE);
-	myDisplay.display();
-    delay(1000);
-    myDisplay.clearDisplay();
-    myDisplay.setTextSize(1);
-    myDisplay.setTextColor(WHITE);
-    myDisplay.printf("Is\nTesting\nYou.\n");
-    myDisplay.display();
-    delay(1000);
-    myDisplay.clearDisplay();
+    // myDisplay.setRotation(3); //0-3
+    // myDisplay.setCursor(10,1);
+  	// myDisplay.drawBitmap(0, 0, fSocietyBitmap, 64, 128, WHITE);
+	// myDisplay.display();
+    // delay(1000);
+    // myDisplay.clearDisplay();
+    // myDisplay.setTextSize(1);
+    // myDisplay.setTextColor(WHITE);
+    // myDisplay.printf("Is\nTesting\nYou.\n");
+    // myDisplay.display();
+    // delay(1000);
+    // myDisplay.clearDisplay();
 
 
 
@@ -1866,45 +1882,46 @@ void loop() {
 // NEOPIXEL SETTINGS
 
 //TURNING ON AND OFF THE WEMO OUTLETS
-        Serial.printf("Turniing on MRWEMO #%i\n", MRWEMO);
-        switchON(MRWEMO);
-        delay(10000);
-        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
-        switchOFF(MRWEMO);
-        delay(10000);
-
-        hueOnOff = true;
-        for(int i=255; i>=0; i=i-100) {
-            Serial.printf("turning on the light\n");
-            setHue(1, hueOnOff, HueRed, i, 255);
-            setHue(2, hueOnOff, HueRed, i, 255);
-            setHue(3, hueOnOff, HueRed, i, 255);
-            setHue(4, hueOnOff, HueRed, i, 255);
-            setHue(5, hueOnOff, HueRed, i, 255);
-            setHue(6, hueOnOff, HueRed, i, 255);
-        }
-        for(int i=0; i<=255; i=i+100) {
-            Serial.printf("turning on the light\n");
-            setHue(1, hueOnOff, HueRed, i, 255);
-            setHue(2, hueOnOff, HueRed, i, 255);
-            setHue(3, hueOnOff, HueRed, i, 255);
-            setHue(4, hueOnOff, HueRed, i, 255);
-            setHue(5, hueOnOff, HueRed, i, 255);
-            setHue(6, hueOnOff, HueRed, i, 255);
-        }
-
-        hueOnOff = false;
-        Serial.printf("turning off the light");
-        setHue(1, hueOnOff, HueRed, 255, 255);
-        setHue(2, hueOnOff, HueRed, 255, 255);
-        setHue(3, hueOnOff, HueRed, 255, 255);
-        setHue(4, hueOnOff, HueRed, 255, 255);
-        setHue(5, hueOnOff, HueRed, 255, 255);
-        setHue(6, hueOnOff, HueRed, 255, 255);
-        delay(10000);
+        // Serial.printf("Turniing on MRWEMO #%i\n", MRWEMO);
+        // switchON(MRWEMO);
+        // delay(10000);
+        // Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        // switchOFF(MRWEMO);
+        // delay(10000);
 
 //HUE SETTINGS
 // 1 Red Flickering Lights, DOOM!
+        // hueOnOff = true;
+        // for(int i=255; i>=0; i=i-100) {
+        //     Serial.printf("turning on the light\n");
+        //     setHue(1, hueOnOff, HueRed, i, 255);
+        //     setHue(2, hueOnOff, HueRed, i, 255);
+        //     setHue(3, hueOnOff, HueRed, i, 255);
+        //     setHue(4, hueOnOff, HueRed, i, 255);
+        //     setHue(5, hueOnOff, HueRed, i, 255);
+        //     setHue(6, hueOnOff, HueRed, i, 255);
+        // }
+        // for(int i=0; i<=255; i=i+100) {
+        //     Serial.printf("turning on the light\n");
+        //     setHue(1, hueOnOff, HueRed, i, 255);
+        //     setHue(2, hueOnOff, HueRed, i, 255);
+        //     setHue(3, hueOnOff, HueRed, i, 255);
+        //     setHue(4, hueOnOff, HueRed, i, 255);
+        //     setHue(5, hueOnOff, HueRed, i, 255);
+        //     setHue(6, hueOnOff, HueRed, i, 255);
+        // }
+
+        // hueOnOff = false;
+        // Serial.printf("turning off the light");
+        // setHue(1, hueOnOff, HueRed, 255, 255);
+        // setHue(2, hueOnOff, HueRed, 255, 255);
+        // setHue(3, hueOnOff, HueRed, 255, 255);
+        // setHue(4, hueOnOff, HueRed, 255, 255);
+        // setHue(5, hueOnOff, HueRed, 255, 255);
+        // setHue(6, hueOnOff, HueRed, 255, 255);
+        // delay(10000);
+
+
         roll=2;
     }  
 
@@ -2279,119 +2296,53 @@ void loop() {
 
 
 //TURNING ON AND OFF THE WEMO OUTLETS
-    Serial.printf("Turniing on MSWEMO #%i\n", MSWEMO);
-    switchON(MSWEMO);
-    delay(10000);
-    Serial.printf("Turniing off MSWEMO #%i\n", MSWEMO);
-    switchOFF(MSWEMO);
-    delay(10000);
+    // Serial.printf("Turniing on MSWEMO #%i\n", MSWEMO);
+    // switchON(MSWEMO);
+    // delay(10000);
+    // Serial.printf("Turniing off MSWEMO #%i\n", MSWEMO);
+    // switchOFF(MSWEMO);
+    // delay(10000);
 
 //HUE SETTINGS
 //20 Rainbow Lights, random colors, excitement!
-           int r;
-            hueOnOff = true;
-            for(int hr=2; hr>=0; hr--) {
-                Serial.printf("turning on the light\n");
-                r=random(7);
-                Serial.printf("light 1, r= %i\n", r);
-                setHue(1, hueOnOff, HueRainbow[r], 255, 255);
-                r=random(7);
-                Serial.printf("light 2, r= %i\n", r);
-                setHue(2, hueOnOff, HueRainbow[r], 255, 255);
-                r=random(7);
-                Serial.printf("light 3, r= %i\n", r);
-                setHue(3, hueOnOff, HueRainbow[r], 255, 255);
-                r=random(7);
-                Serial.printf("light 4, r= %i\n", r);
-                setHue(4, hueOnOff, HueRainbow[r], 255, 255);
-                r=random(7);
-                Serial.printf("light 5, r= %i\n", r);
-                setHue(5, hueOnOff, HueRainbow[r], 255, 255);
-                r=random(7);
-                Serial.printf("light 6, r= %i\n", r);
-                setHue(6, hueOnOff, HueRainbow[r], 255, 255);
+        //    int r;
+        //     hueOnOff = true;
+        //     for(int hr=2; hr>=0; hr--) {
+        //         Serial.printf("turning on the light\n");
+        //         r=random(7);
+        //         Serial.printf("light 1, r= %i\n", r);
+        //         setHue(1, hueOnOff, HueRainbow[r], 255, 255);
+        //         r=random(7);
+        //         Serial.printf("light 2, r= %i\n", r);
+        //         setHue(2, hueOnOff, HueRainbow[r], 255, 255);
+        //         r=random(7);
+        //         Serial.printf("light 3, r= %i\n", r);
+        //         setHue(3, hueOnOff, HueRainbow[r], 255, 255);
+        //         r=random(7);
+        //         Serial.printf("light 4, r= %i\n", r);
+        //         setHue(4, hueOnOff, HueRainbow[r], 255, 255);
+        //         r=random(7);
+        //         Serial.printf("light 5, r= %i\n", r);
+        //         setHue(5, hueOnOff, HueRainbow[r], 255, 255);
+        //         r=random(7);
+        //         Serial.printf("light 6, r= %i\n", r);
+        //         setHue(6, hueOnOff, HueRainbow[r], 255, 255);
 
  
 
     
-            }
-            hueOnOff = false;
-            Serial.printf("turning off the light");
-            setHue(1, hueOnOff, HueRed, 255, 255);
-            setHue(2, hueOnOff, HueRed, 255, 255);
-            setHue(3, hueOnOff, HueRed, 255, 255);
-            setHue(4, hueOnOff, HueRed, 255, 255);
-            setHue(5, hueOnOff, HueRed, 255, 255);
-            setHue(6, hueOnOff, HueRed, 255, 255);
-            delay(10000);
-        } 
+        //     }
+        //     hueOnOff = false;
+        //     Serial.printf("turning off the light");
+        //     setHue(1, hueOnOff, HueRed, 255, 255);
+        //     setHue(2, hueOnOff, HueRed, 255, 255);
+        //     setHue(3, hueOnOff, HueRed, 255, 255);
+        //     setHue(4, hueOnOff, HueRed, 255, 255);
+        //     setHue(5, hueOnOff, HueRed, 255, 255);
+        //     setHue(6, hueOnOff, HueRed, 255, 255);
+        //     delay(10000);
+        // } 
         roll=1;
 }
 
-// Stuff that doesn't work
-
-// //ACCELEROMETER
-// Wire.begin();
-// // d20DiceRoller.begin();
-// // d20DiceRoller.setGyroOffsets(250, 250, 250);
-// // byte diceRead = d20DiceRoller.readMPU6050B() //Don't know what byte, reg to send.
-
-
-// //old code
-// // d20roller.begin(); //there is no function for begin().
-// // d20roller.initialize();
-// // int mpuConnection = d20roller.testConnection();
-// // Serial.printf("MPU6050 is reporting %i\n", mpuConnection);
-// // d20roller.getIntEnabled();
-   
-//      BAD CODE
-//     myDisplay.setRotation(3); //0-3
-//     myDisplay.setCursor(10,1);
-//     myDisplay.setTextSize(1);
-//     myDisplay.setTextColor(WHITE);
-//     //ACCELEROMETER  TESTS //print results to the OLED
-//     // scaleGyroRange = d20roller.getFullScaleGyroRange();
-//     myDisplay.printf("The Gyroscope range is:");// %u", scaleGyroRange); 
-//     delay(5000);
-//     myDisplay.clearDisplay();
-//     // d20roller.setFullScaleGyroRange(scaleGyroRange); //use plus or minus 250
-//     // getAccelX = d20roller.getAccelXSelfTest();
-//     myDisplay.printf("The Accelerometer X is:");// %u", getAccelX);
-//     delay(5000);
-//     myDisplay.clearDisplay();
-//     //  setAccelX;
-//     // d20roller.setAccelXSelfTest(setAccelX); //enabled
-//     // getAccelY = d20roller.getAccelYSelfTest();
-//     myDisplay.printf("The Accelerometer Y is:");// %u", getAccelY);
-//     delay(5000);
-//     myDisplay.clearDisplay();
-//     // setAccelY;
-//     // d20roller.setAccelYSelfTest(setAccelY); //enabled
-//     // getAccelZ = d20roller.getAccelZSelfTest();
-//     myDisplay.printf("The Accelerometer Z is:");// %u", getAccelZ);
-//     delay(5000);
-//     myDisplay.clearDisplay();
-//     //  setAccelZ;
-//     // d20roller.setAccelZSelfTest(setAccelZ); //enabled
-//     // accelRange = d20roller.getFullScaleAccelRange();
-//     myDisplay.printf("The Accelerometer range is:"); //%u", accelRange");
-//     delay(5000);
-//     myDisplay.clearDisplay();
-//     // d20roller.setFullScaleAccelRange(accelRange); //range plus or minus 2
-    
-//     //ACCELEROMETER TESTS
-//     // // float rawAccX = d20roller.getRawAccX();
-//     // // myDisplay.printf("X axis = %f", rawAccX);
-//     // myDisplay.display();
-//     // delay(5000);
-//     // myDisplay.clearDisplay();
-//     // // float rawAccY = d20roller.getRawAccY();
-//     // myDisplay.printf("Y axis = %f", rawAccY);
-//     // myDisplay.display();
-//     // delay(5000);
-//     // myDisplay.clearDisplay();
-//     // // float rawAccZ = d20roller.getRawAccZ();
-//     // myDisplay.printf("Z axis = %f", rawAccZ);
-//     // myDisplay.display();
-//     // delay(5000);
-//     // myDisplay.clearDisplay();
+}
