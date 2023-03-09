@@ -115,7 +115,7 @@ float scalingFactor;
 bool hueOnOff;
 
 // //DICE
-int roll;
+int roll=0;
 
 
 //OBJECT DECLARATIONS
@@ -1891,35 +1891,35 @@ void loop() {
 
 //HUE SETTINGS
 // 1 Red Flickering Lights, DOOM!
-        // hueOnOff = true;
-        // for(int i=255; i>=0; i=i-100) {
-        //     Serial.printf("turning on the light\n");
-        //     setHue(1, hueOnOff, HueRed, i, 255);
-        //     setHue(2, hueOnOff, HueRed, i, 255);
-        //     setHue(3, hueOnOff, HueRed, i, 255);
-        //     setHue(4, hueOnOff, HueRed, i, 255);
-        //     setHue(5, hueOnOff, HueRed, i, 255);
-        //     setHue(6, hueOnOff, HueRed, i, 255);
-        // }
-        // for(int i=0; i<=255; i=i+100) {
-        //     Serial.printf("turning on the light\n");
-        //     setHue(1, hueOnOff, HueRed, i, 255);
-        //     setHue(2, hueOnOff, HueRed, i, 255);
-        //     setHue(3, hueOnOff, HueRed, i, 255);
-        //     setHue(4, hueOnOff, HueRed, i, 255);
-        //     setHue(5, hueOnOff, HueRed, i, 255);
-        //     setHue(6, hueOnOff, HueRed, i, 255);
-        // }
+        hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueRed, i, 255);
+            setHue(2, hueOnOff, HueRed, i, 255);
+            setHue(3, hueOnOff, HueRed, i, 255);
+            setHue(4, hueOnOff, HueRed, i, 255);
+            setHue(5, hueOnOff, HueRed, i, 255);
+            setHue(6, hueOnOff, HueRed, i, 255);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueRed, i, 255);
+            setHue(2, hueOnOff, HueRed, i, 255);
+            setHue(3, hueOnOff, HueRed, i, 255);
+            setHue(4, hueOnOff, HueRed, i, 255);
+            setHue(5, hueOnOff, HueRed, i, 255);
+            setHue(6, hueOnOff, HueRed, i, 255);
+        }
 
-        // hueOnOff = false;
-        // Serial.printf("turning off the light");
-        // setHue(1, hueOnOff, HueRed, 255, 255);
-        // setHue(2, hueOnOff, HueRed, 255, 255);
-        // setHue(3, hueOnOff, HueRed, 255, 255);
-        // setHue(4, hueOnOff, HueRed, 255, 255);
-        // setHue(5, hueOnOff, HueRed, 255, 255);
-        // setHue(6, hueOnOff, HueRed, 255, 255);
-        // delay(10000);
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
 
 
         roll=2;
@@ -1943,6 +1943,36 @@ void loop() {
 
 //HUE SETTINGS
 // 2 Red & Orange Flame Lights
+		 hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueRed, i, 255);
+            setHue(2, hueOnOff, HueOrange, i, 255);
+            setHue(3, hueOnOff, HueRed, i, 255);
+            setHue(4, hueOnOff, HueOrange, i, 255);
+            setHue(5, hueOnOff, HueRed, i, 255);
+            setHue(6, hueOnOff, HueOrange, i, 255);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueOrange, i, 255);
+            setHue(2, hueOnOff, HueRed, i, 255);
+            setHue(3, hueOnOff, HueOrange, i, 255);
+            setHue(4, hueOnOff, HueRed, i, 255);
+            setHue(5, hueOnOff, HueOrange, i, 255);
+            setHue(6, hueOnOff, HueRed, i, 255);
+        }
+
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
+
         roll=3;
     }    
 
@@ -1962,6 +1992,35 @@ void loop() {
 
 //HUE SETTINGS
 // 3 Yellow Flame Light
+ hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueYellow, i, 255);
+            setHue(2, hueOnOff, HueYellow, i, 255);
+            setHue(3, hueOnOff, HueYellow, i, 255);
+            setHue(4, hueOnOff, HueYellow, i, 255);
+            setHue(5, hueOnOff, HueYellow, i, 255);
+            setHue(6, hueOnOff, HueYellow, i, 255);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueYellow, i, 255);
+            setHue(2, hueOnOff, HueYellow, i, 255);
+            setHue(3, hueOnOff, HueYellow, i, 255);
+            setHue(4, hueOnOff, HueYellow, i, 255);
+            setHue(5, hueOnOff, HueYellow, i, 255);
+            setHue(6, hueOnOff, HueYellow, i, 255);
+        }
+
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
         roll=4;
     }
   
@@ -1981,6 +2040,35 @@ void loop() {
 
 //HUE SETTINGS
 // 4 Red & Magenta Flickering Lights
+ hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, 31500, i, 255);
+            setHue(2, hueOnOff, HueRed, i, 255);
+            setHue(3, hueOnOff, 31500, i, 255);
+            setHue(4, hueOnOff, HueRed, i, 255);
+            setHue(5, hueOnOff, 31500, i, 255);
+            setHue(6, hueOnOff, HueRed, i, 255);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueRed, i, 255);
+            setHue(2, hueOnOff, 31500, i, 255);
+            setHue(3, hueOnOff, HueRed, i, 255);
+            setHue(4, hueOnOff, 31500, i, 255);
+            setHue(5, hueOnOff, HueRed, i, 255);
+            setHue(6, hueOnOff, 31500, i, 255);
+        }
+
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
         roll=5;
     }  
 
@@ -2000,6 +2088,36 @@ void loop() {
 
 //HUE SETTINGS
 // 5 Yellow & Red Lights
+ hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueYellow, i, 255);
+            setHue(2, hueOnOff, HueRed, i, 255);
+            setHue(3, hueOnOff, HueYellow, i, 255);
+            setHue(4, hueOnOff, HueRed, i, 255);
+            setHue(5, hueOnOff, HueYellow, i, 255);
+            setHue(6, hueOnOff, HueRed, i, 255);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueRed, i, 255);
+            setHue(2, hueOnOff, HueYellow, i, 255);
+            setHue(3, hueOnOff, HueRed, i, 255);
+            setHue(4, hueOnOff, HueYellow, i, 255);
+            setHue(5, hueOnOff, HueRed, i, 255);
+            setHue(6, hueOnOff, HueYellow, i, 255);
+        }
+
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
+
         roll=6;
     } 
 
@@ -2019,6 +2137,36 @@ void loop() {
 
 //HUE SETTINGS
 // 6 Red & Cyan Lights
+ hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, 180, i, 255);
+            setHue(2, hueOnOff, HueRed, i, 255);
+            setHue(3, hueOnOff, 180, i, 255);
+            setHue(4, hueOnOff, HueRed, i, 255);
+            setHue(5, hueOnOff, 180, i, 255);
+            setHue(6, hueOnOff, HueRed, i, 255);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueRed, i, 255);
+            setHue(2, hueOnOff, 180, i, 255);
+            setHue(3, hueOnOff, HueRed, i, 255);
+            setHue(4, hueOnOff, 180, i, 255);
+            setHue(5, hueOnOff, HueRed, i, 255);
+            setHue(6, hueOnOff, 180, i, 255);
+        }
+
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
+
         roll=7;
     } 
 
@@ -2038,6 +2186,36 @@ void loop() {
 
 //HUE SETTINGS
 // 7 Green & Yellow Lights
+ hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueGreen, i, 255);
+            setHue(2, hueOnOff, HueYellow, i, 255);
+            setHue(3, hueOnOff, HueGreen, i, 255);
+            setHue(4, hueOnOff, HueYellow, i, 255);
+            setHue(5, hueOnOff, HueGreen, i, 255);
+            setHue(6, hueOnOff, HueYellow, i, 255);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueGreen, i, 255);
+            setHue(2, hueOnOff, HueYellow, i, 255);
+            setHue(3, hueOnOff, HueGreen, i, 255);
+            setHue(4, hueOnOff, HueYellow, i, 255);
+            setHue(5, hueOnOff, HueGreen, i, 255);
+            setHue(6, hueOnOff, HueYellow, i, 255);
+        }
+
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
+
         roll=8;
     }
 
@@ -2058,6 +2236,36 @@ void loop() {
 
 //HUE SETTINGS
 // 8 Blue, Green & Yellow Lights
+ hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueYellow, i, 255);
+            setHue(2, hueOnOff, HueGreen, i, 255);
+            setHue(3, hueOnOff, HueYellow, i, 255);
+            setHue(4, hueOnOff, HueGreen, i, 255);
+            setHue(5, hueOnOff, HueYellow, i, 255);
+            setHue(6, hueOnOff, HueGreen, i, 255);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueGreen, i, 255);
+            setHue(2, hueOnOff, HueYellow, i, 255);
+            setHue(3, hueOnOff, HueGreen, i, 255);
+            setHue(4, hueOnOff, HueYellow, i, 255);
+            setHue(5, hueOnOff, HueGreen, i, 255);
+            setHue(6, hueOnOff, HueYellow, i, 255);
+        }
+
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
+
         roll=9;
     }  
 
@@ -2077,6 +2285,36 @@ void loop() {
 
 //HUE SETTINGS
 // 9 Orange & Green Lights
+ hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueOrange, i, 255);
+            setHue(2, hueOnOff, HueGreen, i, 255);
+            setHue(3, hueOnOff, HueOrange, i, 255);
+            setHue(4, hueOnOff, HueGreen, i, 255);
+            setHue(5, hueOnOff, HueOrange, i, 255);
+            setHue(6, hueOnOff, HueGreen, i, 255);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueOrange, i, 255);
+            setHue(2, hueOnOff, HueGreen, i, 255);
+            setHue(3, hueOnOff, HueOrange, i, 255);
+            setHue(4, hueOnOff, HueGreen, i, 255);
+            setHue(5, hueOnOff, HueOrange, i, 255);
+            setHue(6, hueOnOff, HueGreen, i, 255);
+        }
+
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
+
         roll=10;
     }   
 
@@ -2097,6 +2335,36 @@ void loop() {
 
 //HUE SETTINGS
 // 10 Blue & Cyan Lights
+ hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueBlue, i, 255);
+            setHue(2, hueOnOff, 175, i, 255);
+            setHue(3, hueOnOff, HueBlue, i, 255);
+            setHue(4, hueOnOff, 175, i, 255);
+            setHue(5, hueOnOff, HueBlue, i, 255);
+            setHue(6, hueOnOff, 175, i, 255);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, 175, i, 255);
+            setHue(2, hueOnOff, HueBlue, i, 255);
+            setHue(3, hueOnOff, 175, i, 255);
+            setHue(4, hueOnOff, HueBlue, i, 255);
+            setHue(5, hueOnOff, 175, i, 255);
+            setHue(6, hueOnOff, HueBlue, i, 255);
+        }
+
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
+
         roll=11;
     }  
 
@@ -2116,6 +2384,36 @@ void loop() {
 
 //HUE SETTINGS
 // 11 Purple & Cyan Lights
+ hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueViolet, i, 255);
+            setHue(2, hueOnOff, 195, i, 255);
+            setHue(3, hueOnOff, HueViolet, i, 255);
+            setHue(4, hueOnOff, 195, i, 255);
+            setHue(5, hueOnOff, HueViolet, i, 255);
+            setHue(6, hueOnOff, 195, i, 255);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, 195, i, 255);
+            setHue(2, hueOnOff, HueViolet, i, 255);
+            setHue(3, hueOnOff, 195, i, 255);
+            setHue(4, hueOnOff, HueViolet, i, 255);
+            setHue(5, hueOnOff, 195, i, 255);
+            setHue(6, hueOnOff, HueViolet, i, 255);
+        }
+
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
+
         roll=12;
     }  
 
@@ -2136,6 +2434,36 @@ void loop() {
 
 //HUE SETTINGS
 // 12 Pink & Green Lights
+ hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueGreen, i, 255);
+            setHue(2, hueOnOff, 315, i, 255);
+            setHue(3, hueOnOff, HueGreen, i, 255);
+            setHue(4, hueOnOff, 315, i, 255);
+            setHue(5, hueOnOff, HueGreen, i, 255);
+            setHue(6, hueOnOff, 315, i, 255);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, 315, i, 255);
+            setHue(2, hueOnOff, HueGreen, i, 255);
+            setHue(3, hueOnOff, 315, i, 255);
+            setHue(4, hueOnOff, HueGreen, i, 255);
+            setHue(5, hueOnOff, 315, i, 255);
+            setHue(6, hueOnOff, HueGreen, i, 255);
+        }
+
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
+
         roll=13;
     }
 
@@ -2156,6 +2484,36 @@ void loop() {
 
 //HUE SETTINGS
 // 13 Blue, Cyan & Purple Lights
+ hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueViolet, i, 255);
+            setHue(2, hueOnOff, HueBlue, i, 255);
+            setHue(3, hueOnOff, 195, i, 255);
+            setHue(4, hueOnOff, HueViolet, i, 255);
+            setHue(5, hueOnOff, HueBlue, i, 255);
+            setHue(6, hueOnOff, 195, i, 255);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, 195, i, 255);
+            setHue(2, hueOnOff, HueViolet, i, 255);
+            setHue(3, hueOnOff, HueBlue, i, 255);
+            setHue(4, hueOnOff, 195, i, 255);
+            setHue(5, hueOnOff, HueViolet, i, 255);
+            setHue(6, hueOnOff, HueBlue, i, 255);
+        }
+
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
+
         roll=14;
     }
 
@@ -2176,6 +2534,36 @@ void loop() {
 
 //HUE SETTINGS
 // 14 Orange & Purple Lights
+ hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueOrange, i, 255);
+            setHue(2, hueOnOff, HueViolet, i, 255);
+            setHue(3, hueOnOff, HueOrange, i, 255);
+            setHue(4, hueOnOff, HueViolet, i, 255);
+            setHue(5, hueOnOff, HueOrange, i, 255);
+            setHue(6, hueOnOff, HueViolet, i, 255);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueViolet, i, 255);
+            setHue(2, hueOnOff, HueOrange, i, 255);
+            setHue(3, hueOnOff, HueViolet, i, 255);
+            setHue(4, hueOnOff, HueOrange, i, 255);
+            setHue(5, hueOnOff, HueViolet, i, 255);
+            setHue(6, hueOnOff, HueOrange, i, 255);
+        }
+
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
+
         roll=15;
     }
 
@@ -2196,6 +2584,36 @@ void loop() {
 
 //HUE SETTINGS
 // 15 Magenta, Pink, and Orange Lights
+ hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, 315, i, 255);
+            setHue(2, hueOnOff, HueOrange, i, 255);
+            setHue(3, hueOnOff, 315, i, 127);
+            setHue(4, hueOnOff, 315, i, 255);
+            setHue(5, hueOnOff, HueOrange, i, 255);
+            setHue(6, hueOnOff, 315, i, 127);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, 315, i, 127);
+            setHue(2, hueOnOff, 315, i, 255);
+            setHue(3, hueOnOff, HueOrange, i, 255);
+            setHue(4, hueOnOff, 315, i, 127);
+            setHue(5, hueOnOff, 315, i, 255);
+            setHue(6, hueOnOff, HueOrange, i, 255);
+        }
+
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
+
         roll=16;
     }
 
@@ -2216,6 +2634,36 @@ void loop() {
 
 //HUE SETTINGS
 // 16 Green Lights
+ hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueGreen, i, 255);
+            setHue(2, hueOnOff, HueGreen, i, 255);
+            setHue(3, hueOnOff, HueGreen, i, 255);
+            setHue(4, hueOnOff, HueGreen, i, 255);
+            setHue(5, hueOnOff, HueGreen, i, 255);
+            setHue(6, hueOnOff, HueGreen, i, 255);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueGreen, i, 255);
+            setHue(2, hueOnOff, HueGreen, i, 255);
+            setHue(3, hueOnOff, HueGreen, i, 255);
+            setHue(4, hueOnOff, HueGreen, i, 255);
+            setHue(5, hueOnOff, HueGreen, i, 255);
+            setHue(6, hueOnOff, HueGreen, i, 255);
+        }
+
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
+
         roll=17;
     }
 
@@ -2236,6 +2684,36 @@ void loop() {
 
 //HUE SETTINGS
 // 17 Green & Yellow Lights
+ hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueGreen, i, 255);
+            setHue(2, hueOnOff, HueYellow, i, 255);
+            setHue(3, hueOnOff, HueGreen, i, 255);
+            setHue(4, hueOnOff, HueYellow, i, 255);
+            setHue(5, hueOnOff, HueGreen, i, 255);
+            setHue(6, hueOnOff, HueYellow, i, 255);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueYellow, i, 255);
+            setHue(2, hueOnOff, HueGreen, i, 255);
+            setHue(3, hueOnOff, HueYellow, i, 255);
+            setHue(4, hueOnOff, HueGreen, i, 255);
+            setHue(5, hueOnOff, HueYellow, i, 255);
+            setHue(6, hueOnOff, HueGreen, i, 255);
+        }
+
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
+
         roll=18;
     } 
 
@@ -2256,6 +2734,36 @@ void loop() {
 
 //HUE SETTINGS
 // 18 Blue & Green Lights
+ hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueBlue, i, 255);
+            setHue(2, hueOnOff, HueGreen, i, 255);
+            setHue(3, hueOnOff, HueBlue, i, 255);
+            setHue(4, hueOnOff, HueGreen, i, 255);
+            setHue(5, hueOnOff, HueBlue, i, 255);
+            setHue(6, hueOnOff, HueGreen, i, 255);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueGreen, i, 255);
+            setHue(2, hueOnOff, HueBlue, i, 255);
+            setHue(3, hueOnOff, HueGreen, i, 255);
+            setHue(4, hueOnOff, HueBlue, i, 255);
+            setHue(5, hueOnOff, HueGreen, i, 255);
+            setHue(6, hueOnOff, HueBlue, i, 255);
+        }
+
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
+
         roll=19;
     }
 
@@ -2276,6 +2784,36 @@ void loop() {
 
 //HUE SETTINGS
 // 19 Magenta, Purple & Green Lights
+ hueOnOff = true;
+        for(int i=255; i>=0; i=i-100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueGreen, i, 255);
+            setHue(2, hueOnOff, HueViolet, i, 255);
+            setHue(3, hueOnOff, HueGreen, i, 255);
+            setHue(4, hueOnOff, HueViolet, i, 255);
+            setHue(5, hueOnOff, HueGreen, i, 255);
+            setHue(6, hueOnOff, HueViolet, i, 255);
+        }
+        for(int i=0; i<=255; i=i+100) {
+            Serial.printf("turning on the light\n");
+            setHue(1, hueOnOff, HueViolet, i, 255);
+            setHue(2, hueOnOff, HueGreen, i, 255);
+            setHue(3, hueOnOff, HueViolet, i, 255);
+            setHue(4, hueOnOff, HueGreen, i, 255);
+            setHue(5, hueOnOff, HueViolet, i, 255);
+            setHue(6, hueOnOff, HueGreen, i, 255);
+        }
+
+        hueOnOff = false;
+        Serial.printf("turning off the light");
+        setHue(1, hueOnOff, HueRed, 255, 255);
+        setHue(2, hueOnOff, HueRed, 255, 255);
+        setHue(3, hueOnOff, HueRed, 255, 255);
+        setHue(4, hueOnOff, HueRed, 255, 255);
+        setHue(5, hueOnOff, HueRed, 255, 255);
+        setHue(6, hueOnOff, HueRed, 255, 255);
+        delay(10000);
+
         roll=20;
     } 
 
@@ -2305,44 +2843,44 @@ void loop() {
 
 //HUE SETTINGS
 //20 Rainbow Lights, random colors, excitement!
-        //    int r;
-        //     hueOnOff = true;
-        //     for(int hr=2; hr>=0; hr--) {
-        //         Serial.printf("turning on the light\n");
-        //         r=random(7);
-        //         Serial.printf("light 1, r= %i\n", r);
-        //         setHue(1, hueOnOff, HueRainbow[r], 255, 255);
-        //         r=random(7);
-        //         Serial.printf("light 2, r= %i\n", r);
-        //         setHue(2, hueOnOff, HueRainbow[r], 255, 255);
-        //         r=random(7);
-        //         Serial.printf("light 3, r= %i\n", r);
-        //         setHue(3, hueOnOff, HueRainbow[r], 255, 255);
-        //         r=random(7);
-        //         Serial.printf("light 4, r= %i\n", r);
-        //         setHue(4, hueOnOff, HueRainbow[r], 255, 255);
-        //         r=random(7);
-        //         Serial.printf("light 5, r= %i\n", r);
-        //         setHue(5, hueOnOff, HueRainbow[r], 255, 255);
-        //         r=random(7);
-        //         Serial.printf("light 6, r= %i\n", r);
-        //         setHue(6, hueOnOff, HueRainbow[r], 255, 255);
+           int r;
+            hueOnOff = true;
+            for(int hr=2; hr>=0; hr--) {
+                Serial.printf("turning on the light\n");
+                r=random(7);
+                Serial.printf("light 1, r= %i\n", r);
+                setHue(1, hueOnOff, HueRainbow[r], 255, 255);
+                r=random(7);
+                Serial.printf("light 2, r= %i\n", r);
+                setHue(2, hueOnOff, HueRainbow[r], 255, 255);
+                r=random(7);
+                Serial.printf("light 3, r= %i\n", r);
+                setHue(3, hueOnOff, HueRainbow[r], 255, 255);
+                r=random(7);
+                Serial.printf("light 4, r= %i\n", r);
+                setHue(4, hueOnOff, HueRainbow[r], 255, 255);
+                r=random(7);
+                Serial.printf("light 5, r= %i\n", r);
+                setHue(5, hueOnOff, HueRainbow[r], 255, 255);
+                r=random(7);
+                Serial.printf("light 6, r= %i\n", r);
+                setHue(6, hueOnOff, HueRainbow[r], 255, 255);
 
  
 
     
-        //     }
-        //     hueOnOff = false;
-        //     Serial.printf("turning off the light");
-        //     setHue(1, hueOnOff, HueRed, 255, 255);
-        //     setHue(2, hueOnOff, HueRed, 255, 255);
-        //     setHue(3, hueOnOff, HueRed, 255, 255);
-        //     setHue(4, hueOnOff, HueRed, 255, 255);
-        //     setHue(5, hueOnOff, HueRed, 255, 255);
-        //     setHue(6, hueOnOff, HueRed, 255, 255);
-        //     delay(10000);
-        // } 
+            }
+            hueOnOff = false;
+            Serial.printf("turning off the light");
+            setHue(1, hueOnOff, HueRed, 255, 255);
+            setHue(2, hueOnOff, HueRed, 255, 255);
+            setHue(3, hueOnOff, HueRed, 255, 255);
+            setHue(4, hueOnOff, HueRed, 255, 255);
+            setHue(5, hueOnOff, HueRed, 255, 255);
+            setHue(6, hueOnOff, HueRed, 255, 255);
+            delay(10000);
+        } 
         roll=1;
 }
 
-}
+// }
