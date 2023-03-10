@@ -93,7 +93,7 @@
 #include <math.h>
 #include "colors.h"
 #include "hue.h"
-#include "IoTTimer.h"
+// #include "IoTTimer.h"
 #include "wemo.h"
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
@@ -115,16 +115,21 @@ const int MSWEMO = 1;
 // //ACCELEROMETER
 const byte MPUADDRESS = 0x68;
 const byte FS = 0;
+const int NUMSIDES = 20;
 float aX, aY, aZ;
-float acceleration[3];
 unsigned int now, before;
 float scalingFactor;
+float errX, errY, errZ;
+float powX, powY, powZ;
+float minRoll;
+int minCell;
+
 
 // //HUE
 bool hueOnOff;
 
 // //DICE
-int roll=0;
+int roll;
 
 
 //OBJECT DECLARATIONS
@@ -132,10 +137,41 @@ int roll=0;
 Adafruit_SSD1306 myDisplay(OLED_RESET); 
 // // //NEOPIXEL
 Adafruit_NeoPixel pixel(PIXELCOUNT, PIXELPIN, WS2812B);
-// // //ACCELEROMETER
-// // MPU6050 d20roller(0x68);
+
+
 
 //ARRAYS
+
+//Baseline values for Die Sides x 20
+const float DIE[20][3]={
+	{-0.086, -0.996, 0.659}, 	//A
+	{-0.498, -0.841, 0.701}, 	//B
+	{-0.061, -0.598, 0.741}, 	//C
+	{0.608, -0.603, 0.725},		//D
+	{0.542, -0.863, 0.657}, 	//E
+	{-0.573, 0.528, 0.622},		//F
+	{-0.564, 0.794, 0.680},		//G
+	{0.125, 0.934, 0.988},		//H
+	{0.500, 0.764, 0.639},		//I
+	{0.112, 0.500, 0.596},		//J
+	{0.249, -0.176, 0.576},		//K
+	{-0.321, -0.588, 0.597},	//L
+	{-0.833, -0.142, 0.618},	//M
+	{-0.969, -0.269, 0.685},	//N
+	{-0.850, 0.234, 0.721}, 	//O
+	{-0.252, 0.046, 0.757},		//P
+	{0.328, 0.458, 0.744},		//Q
+	{0.834, -0.055, 0.728},		//R
+	{0.969, 0.138, 0.671},		//S
+	{0.735, -0.420, 0.619}		//T	
+};
+
+//Need an Array where the live reading can live
+float acceleration[3];
+//Need an Array to hold the roll values while live reading changes
+float rollArray[3];
+//Need an Array to calculate the "error" margin between baseline roll and rollArray values
+float error[20];
 
 //TESTING THE OLED
 // //Ode to Mr. Robot below
@@ -1772,9 +1808,10 @@ const unsigned char killUmAll [1024] PROGMEM = {
 
 
 
-// SYSTEM_MODE(MANUAL);
-SYSTEM_MODE(SEMI_AUTOMATIC);
+SYSTEM_MODE(MANUAL);
+// SYSTEM_MODE(SEMI_AUTOMATIC);
 
+//////////SETUP//////////
 
 void setup() {
     Serial.begin(9600);
@@ -1787,7 +1824,6 @@ void setup() {
 // HUE & WEMO
     WiFi.on();
     WiFi.setCredentials("IoTNetwork");
-    // WiFi.setCredentials("DRWIFI");
 
     WiFi.connect();
     while(WiFi.connecting()){
@@ -1806,7 +1842,6 @@ void setup() {
 }
 
 
-
 //////////BEGIN/////////
 
 void loop() {
@@ -1814,18 +1849,58 @@ void loop() {
 //MPU6050 ACCELEROMETER
 	now = millis();
 	if (now - before > 2500) {
+
+		//This saves the live reading to the acceleration array:
 		getAccArray(MPUADDRESS, acceleration);
+
+		//under circumstances determining that the die was actually rolled, save the values for calculation of the side rolled:
+		rollArray[0]={acceleration[0]};
+		rollArray[1]={acceleration[1]};
+		rollArray[2]={acceleration[2]};
+
+		//Find the Side Rolled
+		for(int i=0; i<NUMSIDES; i++) {
+			//Step 1: Calculate the difference between the roll value and respective base values
+			errX = rollArray[0]-DIE[i][0];
+			errY = rollArray[1]-DIE[i][1];
+			errZ = rollArray[2]-DIE[i][2];
+			//Step 2: Square each difference
+			powX = pow(errX, 2);
+			powY = pow(errY, 2);
+			powZ = pow(errZ, 2);
+			//Step 3: Add the differences between X, Y, and Z to calculate error margin
+			//Step 4: Save the low value to the error array for future comparison
+			error[i]={(powX+powY+powZ)};
+		}
+		minRoll = 100;
+		//Find the Lowest value given the reading to determine the side rolled
+		for(int i=0; i<NUMSIDES; i++) {
+			
+			if(minRoll > error[i]) {
+				minRoll = error[i];
+				minCell = i;
+				Serial.printf("minRoll is %0.3f at cell %i\n", minRoll, minCell);
+				
+			}
+		}	
+
+
+		// TESTING DATA FOR ACCELEROMETER > PRINT READINGS
 		Serial.printf("Acceleration Data (in G's): x=%0.3f, y=%0.3f, z=%0.3f\n", acceleration[0], acceleration[1], acceleration[2]);
 		myDisplay.setRotation(2); 
 		myDisplay.setCursor(8,1);
 		myDisplay.setTextSize(1);
 		myDisplay.setTextColor(WHITE);
-		myDisplay.printf("X= %0.3f\n Y= %0.3f\n Z= %0.3f\n", acceleration[0], acceleration[1], acceleration[2]);
+		myDisplay.printf("X= %0.3f\n Y= %0.3f\n Z= %0.3f\nYou rolled %i!", acceleration[0], acceleration[1], acceleration[2], minCell);
 		myDisplay.display();
-		// delay(16000);
+		// delay(20000);
 		myDisplay.clearDisplay();
-		now = before;
+
+		//reset reading
+		before = now;
 	}
+
+
 
 //Display DnD Title on the OLED
     // myDisplay.setRotation(2); //0-3
@@ -1880,6 +1955,7 @@ void loop() {
 
 // 1 Red Flickering Lights, DOOM!
 //OLED DISPLAY
+		myDisplay.clearDisplay();
         myDisplay.setRotation(2); //0-3
         myDisplay.setCursor(0,0);
         myDisplay.drawBitmap(0, 0, rip, 128, 64, WHITE);
@@ -1891,12 +1967,12 @@ void loop() {
 // NEOPIXEL SETTINGS
 
 //TURNING ON AND OFF THE WEMO OUTLETS
-        // Serial.printf("Turniing on MRWEMO #%i\n", MRWEMO);
-        // switchON(MRWEMO);
-        // delay(10000);
-        // Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
-        // switchOFF(MRWEMO);
-        // delay(10000);
+        Serial.printf("Turniing on MRWEMO #%i\n", MRWEMO);
+        switchON(MRWEMO);
+        delay(10000);
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 
 //HUE SETTINGS
 // 1 Red Flickering Lights, DOOM!
@@ -1920,21 +1996,19 @@ void loop() {
             setHue(6, hueOnOff, HueRed, i, 255);
         }
 
-        hueOnOff = false;
-        Serial.printf("turning off the light");
-        setHue(1, hueOnOff, HueRed, 255, 255);
-        setHue(2, hueOnOff, HueRed, 255, 255);
-        setHue(3, hueOnOff, HueRed, 255, 255);
-        setHue(4, hueOnOff, HueRed, 255, 255);
-        setHue(5, hueOnOff, HueRed, 255, 255);
-        setHue(6, hueOnOff, HueRed, 255, 255);
-        delay(10000);
+        // hueOnOff = false;
+        // Serial.printf("turning off the light");
+        // setHue(1, hueOnOff, HueRed, 255, 255);
+        // setHue(2, hueOnOff, HueRed, 255, 255);
+        // setHue(3, hueOnOff, HueRed, 255, 255);
+        // setHue(4, hueOnOff, HueRed, 255, 255);
+        // setHue(5, hueOnOff, HueRed, 255, 255);
+        // setHue(6, hueOnOff, HueRed, 255, 255);
+        // delay(10000);
 
 
         roll=2;
     }  
-
-
 
 
 
@@ -2022,14 +2096,15 @@ void loop() {
         }
 
         hueOnOff = false;
-        Serial.printf("turning off the light");
-        setHue(1, hueOnOff, HueRed, 255, 255);
-        setHue(2, hueOnOff, HueRed, 255, 255);
-        setHue(3, hueOnOff, HueRed, 255, 255);
-        setHue(4, hueOnOff, HueRed, 255, 255);
-        setHue(5, hueOnOff, HueRed, 255, 255);
-        setHue(6, hueOnOff, HueRed, 255, 255);
-        delay(10000);
+//         Serial.printf("turning off the light");
+//         setHue(1, hueOnOff, HueRed, 255, 255);
+//         setHue(2, hueOnOff, HueRed, 255, 255);
+//         setHue(3, hueOnOff, HueRed, 255, 255);
+//         setHue(4, hueOnOff, HueRed, 255, 255);
+//         setHue(5, hueOnOff, HueRed, 255, 255);
+//         setHue(6, hueOnOff, HueRed, 255, 255);
+//         delay(10000);
+
         roll=4;
     }
   
@@ -2428,7 +2503,6 @@ void loop() {
 
 
 
-
     if(roll==12) {
 //12 Pink & Green Lights
 //OLED DISPLAY
@@ -2475,7 +2549,6 @@ void loop() {
 
         roll=13;
     }
-
 
 
 
@@ -2528,7 +2601,6 @@ void loop() {
 
 
 
-
     if(roll==14) {
 //14 Orange & Purple Lights
 //OLED DISPLAY
@@ -2575,7 +2647,6 @@ void loop() {
 
         roll=15;
     }
-
 
 
 
@@ -2628,7 +2699,6 @@ void loop() {
 
 
 
-
     if(roll==16) {
 //16 Green Lights
 //OLED DISPLAY
@@ -2675,7 +2745,6 @@ void loop() {
 
         roll=17;
     }
-
 
 
 
@@ -2728,7 +2797,6 @@ void loop() {
 
 
 
-
     if(roll==18) {
 //18 Blue & Green Lights
 //OLED DISPLAY
@@ -2775,7 +2843,6 @@ void loop() {
 
         roll=19;
     }
-
 
 
 
@@ -2828,7 +2895,6 @@ void loop() {
 
 
 
-
     if(roll==20) {
 // 20 Rainbow Lights, random colors, excitement!
 //OLED DISPLAY
@@ -2843,12 +2909,12 @@ void loop() {
 
 
 //TURNING ON AND OFF THE WEMO OUTLETS
-    // Serial.printf("Turniing on MSWEMO #%i\n", MSWEMO);
-    // switchON(MSWEMO);
-    // delay(10000);
-    // Serial.printf("Turniing off MSWEMO #%i\n", MSWEMO);
-    // switchOFF(MSWEMO);
-    // delay(10000);
+    Serial.printf("Turniing on MSWEMO #%i\n", MSWEMO);
+    switchON(MSWEMO);
+    delay(10000);
+    Serial.printf("Turniing off MSWEMO #%i\n", MSWEMO);
+    switchOFF(MSWEMO);
+    delay(10000);
 
 //HUE SETTINGS
 //20 Rainbow Lights, random colors, excitement!
@@ -2875,9 +2941,6 @@ void loop() {
                 Serial.printf("light 6, r= %i\n", r);
                 setHue(6, hueOnOff, HueRainbow[r], 255, 255);
 
- 
-
-    
             }
             hueOnOff = false;
             Serial.printf("turning off the light");
@@ -2888,8 +2951,9 @@ void loop() {
             setHue(5, hueOnOff, HueRed, 255, 255);
             setHue(6, hueOnOff, HueRed, 255, 255);
             delay(10000);
-        } 
+        
         roll=1;
+
 }
 
-// }
+}
