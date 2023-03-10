@@ -93,7 +93,7 @@
 #include <math.h>
 #include "colors.h"
 #include "hue.h"
-// #include "IoTTimer.h"
+#include "IoTTimer.h"
 #include "wemo.h"
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
@@ -101,35 +101,41 @@
 
 
 //GLOBALS
+
 // //OLED
 void setup();
 void loop();
-#line 99 "/Users/kdneeley/Documents/IoT/Smart-Room-Controller/smart-room-controller-DnD-20-sided-die-KD-Neeley/src/smart-room-controller-DnD-20-sided-die-KD-Neeley.ino"
+char getSideRolled (int cell);
+#line 100 "/Users/kdneeley/Documents/IoT/Smart-Room-Controller/smart-room-controller-DnD-20-sided-die-KD-Neeley/src/smart-room-controller-DnD-20-sided-die-KD-Neeley.ino"
 const int OLED_RESET = D4;
+
 // //NEOPIXEL
 const int PIXELCOUNT = 1;
 const int PIXELPIN = D8;
+
 // //WEMO
 const int MRWEMO = 3;
 const int MSWEMO = 1;
+
 // //ACCELEROMETER
 const byte MPUADDRESS = 0x68;
 const byte FS = 0;
 const int NUMSIDES = 20;
-float aX, aY, aZ;
 unsigned int now, before;
+float aX, aY, aZ;
 float scalingFactor;
 float errX, errY, errZ;
 float powX, powY, powZ;
 float minRoll;
 int minCell;
 
-
 // //HUE
 bool hueOnOff;
 
 // //DICE
 int roll;
+char letter;
+
 
 
 //OBJECT DECLARATIONS
@@ -137,34 +143,66 @@ int roll;
 Adafruit_SSD1306 myDisplay(OLED_RESET); 
 // // //NEOPIXEL
 Adafruit_NeoPixel pixel(PIXELCOUNT, PIXELPIN, WS2812B);
+//TIMER
+IoTTimer timeUp;
 
 
 
 //ARRAYS
 
 //Baseline values for Die Sides x 20
+//note: I think these values need to be smack in the middle between a max and min for each side to get more accurate readings of the die side
+//NOTE: TRUE^ I am going to have to find the min and max for each axis at each letter face
+//the die is functioning and giving letters back from each array, however the values are often wrong but close.
+//My theory is that by finding the median of each axis, I will get a more accurate reading by relating the margin of error to the median instead of it being the single random reading I have.
+//Random Readings below, they are all connected, however they may fall too close to the max or min and spit back the wrong letter.
 const float DIE[20][3]={
-	{-0.086, -0.996, 0.659}, 	//A
-	{-0.498, -0.841, 0.701}, 	//B
-	{-0.061, -0.598, 0.741}, 	//C
-	{0.608, -0.603, 0.725},		//D
-	{0.542, -0.863, 0.657}, 	//E
-	{-0.573, 0.528, 0.622},		//F
-	{-0.564, 0.794, 0.680},		//G
-	{0.125, 0.934, 0.988},		//H
-	{0.500, 0.764, 0.639},		//I
-	{0.112, 0.500, 0.596},		//J
-	{0.249, -0.176, 0.576},		//K
-	{-0.321, -0.588, 0.597},	//L
-	{-0.833, -0.142, 0.618},	//M
-	{-0.969, -0.269, 0.685},	//N
-	{-0.850, 0.234, 0.721}, 	//O
-	{-0.252, 0.046, 0.757},		//P
-	{0.328, 0.458, 0.744},		//Q
-	{0.834, -0.055, 0.728},		//R
-	{0.969, 0.138, 0.671},		//S
-	{0.735, -0.420, 0.619}		//T	
+	{-0.275, -0.916, -0.377}, 	//A 0
+	{-0.696, -0.667, 0.174}, 	//B	1
+	{-0.269, -0.556, 0.720}, 	//C	2
+	{0.403, -0.744, 0.511},		//D	3
+	{0.360, -0.945, 0.168}, 	//E	4
+	{-0.301, 0.727, -0.360},	//F	5
+	{-0.326, 0.915, 0.053},		//G	6
+	{0.374, 0.841, 0.301},		//H	7
+	{0.778, 0.621, -0.192},		//I	8
+	{0.381, 0.539, -0.807},		//J	9
+	{0.342, -0.169, -0.010},	//K	10
+	{-0.367, -0.463, -0.874},	//L	11
+	{-0.770, 0.067, -0.659},	//M	12
+	{-0.971, -0.056, 0.036},	//N	13
+	{-0.717, 0.445, 0.435}, 	//O	14
+	{-0.250, 0.056, 0.902},		//P	15
+	{0.412, 0.348, 0.802},		//Q	16
+	{0.808, -0.190, 0.539},		//R	17
+	{1.009, -0.042, -0.154},	//S	18
+	{0.764, -0.475, -0.539}		//T	19	
 };
+
+//MEDIAN ARRAY 
+//NOTE: Not enough time left to finish collecting this data
+// const float DIE[20][3]={
+// 	{}, 	//A 0 [side 1]
+// 	{}, 	//B	1 [side 7]
+// 	{}, 	//C	2 [side 17]
+// 	{},		//D	3 [side 3]
+// 	{}, 	//E	4 [side 19]
+// 	{},	//F	5 [side 18]
+// 	{},		//G	6 [side 2]
+// 	{},		//H	7 [side 20]
+// 	{},		//I	8 [side 14]
+// 	{},		//J	9 [side 4]
+// 	{},	//K	10 [side 11]
+// 	{},	//L	11 [side 13]
+// 	{},	//M	12 [side 5]
+// 	{},	//N	13 [side 15]
+// 	{}, 	//O	14 [side 12]
+// 	{},		//P	15 [side 10]
+// 	{},		//Q	16 [side 8]
+// 	{},		//R	17 [side 16]
+// 	{},	//S	18 [side 6]
+// 	{}		//T	19	[side 9]
+// };
 
 //Need an Array where the live reading can live
 float acceleration[3];
@@ -1806,10 +1844,11 @@ const unsigned char killUmAll [1024] PROGMEM = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
+//FUNCTION PROTOTYPES
+char getSideRolled(int cell);
 
-
-SYSTEM_MODE(MANUAL);
-// SYSTEM_MODE(SEMI_AUTOMATIC);
+// SYSTEM_MODE(MANUAL);
+SYSTEM_MODE(SEMI_AUTOMATIC);
 
 //////////SETUP//////////
 
@@ -1820,17 +1859,17 @@ void setup() {
 //MPU6050 ACCELEROMETER
 	scalingFactor = mpuBegin(MPUADDRESS, FS);
    
-
+////***TURN ON BEFORE PRESENTATION!
 // HUE & WEMO
-    WiFi.on();
-    WiFi.setCredentials("IoTNetwork");
+    // WiFi.on();
+    // WiFi.setCredentials("IoTNetwork");
 
-    WiFi.connect();
-    while(WiFi.connecting()){
-    Serial.printf(".");
-    }
-    delay(1000);
-    Serial.printf("\n\n");
+    // WiFi.connect();
+    // while(WiFi.connecting()){
+    // Serial.printf(".");
+    // }
+    // delay(1000);
+    // Serial.printf("\n\n");
 
 //NEOPIXEL
     pixel.begin();
@@ -1845,6 +1884,10 @@ void setup() {
 //////////BEGIN/////////
 
 void loop() {
+//NEOPIXEL TEST
+// pixel.setBrightness(100);
+// pixel.setPixelColor(0, green);
+// pixel.show();
 
 //MPU6050 ACCELEROMETER
 	now = millis();
@@ -1880,25 +1923,87 @@ void loop() {
 				minRoll = error[i];
 				minCell = i;
 				Serial.printf("minRoll is %0.3f at cell %i\n", minRoll, minCell);
-				
+				letter = getSideRolled(minCell);
+				//Set Side Rolled by the Letter.
+				if(letter=='A') {
+					roll = 1;
+				}
+				if(letter=='B') {
+					roll = 7;
+				}
+				if(letter=='C') {
+					roll = 17;
+				}
+				if(letter=='D') {
+					roll = 3;
+				}
+				if(letter=='E') {
+					roll = 19;
+				}
+				if(letter=='F') {
+					roll = 18;
+				}
+				if(letter=='G') {
+					roll = 2;
+				}
+				if(letter=='H') {
+					roll = 20;
+				}
+				if(letter=='I') {
+					roll = 14;
+				}
+				if(letter=='J') {
+					roll = 4;
+				}
+				if(letter=='K') {
+					roll = 11;
+				}
+				if(letter=='L') {
+					roll = 13;
+				}
+				if(letter=='M') {
+					roll = 5;
+				}
+				if(letter=='N') {
+					roll = 15;
+				}
+				if(letter=='O') {
+					roll = 12;
+				}
+				if(letter=='P') {
+					roll = 10;
+				}
+				if(letter=='Q') {
+					roll = 8;
+				}
+				if(letter=='R') {
+					roll = 16;
+				}
+				if(letter=='S') {
+					roll = 6;
+				}
+				if(letter=='T') {
+					roll = 9;
+				}
 			}
 		}	
 
 
 		// TESTING DATA FOR ACCELEROMETER > PRINT READINGS
-		Serial.printf("Acceleration Data (in G's): x=%0.3f, y=%0.3f, z=%0.3f\n", acceleration[0], acceleration[1], acceleration[2]);
-		myDisplay.setRotation(2); 
-		myDisplay.setCursor(8,1);
-		myDisplay.setTextSize(1);
-		myDisplay.setTextColor(WHITE);
-		myDisplay.printf("X= %0.3f\n Y= %0.3f\n Z= %0.3f\nYou rolled %i!", acceleration[0], acceleration[1], acceleration[2], minCell);
-		myDisplay.display();
+		// Serial.printf("Acceleration Data (in G's): x=%0.3f, y=%0.3f, z=%0.3f\n", acceleration[0], acceleration[1], acceleration[2]);
+		// myDisplay.setRotation(2); 
+		// myDisplay.setCursor(8,1);
+		// myDisplay.setTextSize(2);
+		// myDisplay.setTextColor(WHITE);
+		// myDisplay.printf("X= %0.3f\n Y= %0.3f\nZ= %0.3f\n\n %i!", acceleration[0], acceleration[1], acceleration[2], minCell);
+		// myDisplay.display();
 		// delay(20000);
-		myDisplay.clearDisplay();
+		// myDisplay.clearDisplay();
 
 		//reset reading
 		before = now;
 	}
+
 
 
 
@@ -1965,14 +2070,21 @@ void loop() {
 
 // 1 Red Flickering Lights, DOOM!
 // NEOPIXEL SETTINGS
+		pixel.setBrightness(100);
+		pixel.setPixelColor(0, red);
+		pixel.show();
+		delay(3000);
+		pixel.clear();
+		pixel.show();
 
 //TURNING ON AND OFF THE WEMO OUTLETS
         Serial.printf("Turniing on MRWEMO #%i\n", MRWEMO);
         switchON(MRWEMO);
-        delay(10000);
-        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
-        switchOFF(MRWEMO);
-        delay(10000);
+        // delay(10000);
+//Comment out below to leave WEMO on until the next roll is made
+        // Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        // switchOFF(MRWEMO);
+        // delay(10000);
 
 //HUE SETTINGS
 // 1 Red Flickering Lights, DOOM!
@@ -2007,12 +2119,15 @@ void loop() {
         // delay(10000);
 
 
-        roll=2;
     }  
 
 
 
     if(roll==2) {
+//TURN OFF WEMO SWITCH IF IT'S ON
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 //2 Red & Orange Flame Lights
 //OLED DISPLAY
         myDisplay.setRotation(2); //0-3
@@ -2056,12 +2171,15 @@ void loop() {
         setHue(6, hueOnOff, HueRed, 255, 255);
         delay(10000);
 
-        roll=3;
     }    
 
 
 
     if(roll==3) {
+		//TURN OFF WEMO SWITCH IF IT'S ON
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 //3 Yellow Flame Light
 //OLED DISPLAY
         myDisplay.setRotation(2); //0-3
@@ -2105,12 +2223,15 @@ void loop() {
 //         setHue(6, hueOnOff, HueRed, 255, 255);
 //         delay(10000);
 
-        roll=4;
     }
   
 
 
     if(roll==4) {
+		//TURN OFF WEMO SWITCH IF IT'S ON
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 // 4 Red & Magenta Flickering Lights
 //OLED DISPLAY
         myDisplay.setRotation(2); //0-3
@@ -2153,12 +2274,16 @@ void loop() {
         setHue(5, hueOnOff, HueRed, 255, 255);
         setHue(6, hueOnOff, HueRed, 255, 255);
         delay(10000);
-        roll=5;
+        
     }  
 
 
 
     if(roll==5) {
+		//TURN OFF WEMO SWITCH IF IT'S ON
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 //5 Yellow & Red Lights
 //OLED DISPLAY
         myDisplay.setRotation(2); //0-3
@@ -2202,12 +2327,16 @@ void loop() {
         setHue(6, hueOnOff, HueRed, 255, 255);
         delay(10000);
 
-        roll=6;
+        
     } 
 
 
 
     if(roll==6) {
+		//TURN OFF WEMO SWITCH IF IT'S ON
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 //6 Red & Cyan Lights
 //OLED DISPLAY
         myDisplay.setRotation(2); //0-3
@@ -2257,6 +2386,10 @@ void loop() {
 
 
     if(roll==7) {
+		//TURN OFF WEMO SWITCH IF IT'S ON
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 //7 Green & Yellow Lights
 //OLED DISPLAY
         myDisplay.setRotation(2); //0-3
@@ -2300,12 +2433,15 @@ void loop() {
         setHue(6, hueOnOff, HueRed, 255, 255);
         delay(10000);
 
-        roll=8;
     }
 
 
 
     if(roll==8) {
+		//TURN OFF WEMO SWITCH IF IT'S ON
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 //8 Blue, Green & Yellow Lights
 //OLED DISPLAY
         myDisplay.setRotation(2); //0-3
@@ -2350,12 +2486,16 @@ void loop() {
         setHue(6, hueOnOff, HueRed, 255, 255);
         delay(10000);
 
-        roll=9;
+      
     }  
 
 
 
     if(roll==9) {
+		//TURN OFF WEMO SWITCH IF IT'S ON
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 //9 Orange & Green Lights
 //OLED DISPLAY
         myDisplay.setRotation(2); //0-3
@@ -2399,12 +2539,16 @@ void loop() {
         setHue(6, hueOnOff, HueRed, 255, 255);
         delay(10000);
 
-        roll=10;
+        
     }   
 
 
 
     if(roll==10) {
+		//TURN OFF WEMO SWITCH IF IT'S ON
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 //10 Blue & Cyan Lights
 //OLED DISPLAY
         myDisplay.setRotation(2); //0-3
@@ -2449,12 +2593,16 @@ void loop() {
         setHue(6, hueOnOff, HueRed, 255, 255);
         delay(10000);
 
-        roll=11;
+        
     }  
 
 
 
     if(roll==11) {
+		//TURN OFF WEMO SWITCH IF IT'S ON
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 //11 Purple & Cyan Lights
 //OLED DISPLAY
         myDisplay.setRotation(2); //0-3
@@ -2498,12 +2646,16 @@ void loop() {
         setHue(6, hueOnOff, HueRed, 255, 255);
         delay(10000);
 
-        roll=12;
+        
     }  
 
 
 
     if(roll==12) {
+		//TURN OFF WEMO SWITCH IF IT'S ON
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 //12 Pink & Green Lights
 //OLED DISPLAY
         myDisplay.setRotation(2); //0-3
@@ -2547,12 +2699,16 @@ void loop() {
         setHue(6, hueOnOff, HueRed, 255, 255);
         delay(10000);
 
-        roll=13;
+        
     }
 
 
 
     if(roll==13) {
+		//TURN OFF WEMO SWITCH IF IT'S ON
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 //13 Blue, Cyan & Purple Lights
 //OLED DISPLAY
         myDisplay.setRotation(2); //0-3
@@ -2596,12 +2752,16 @@ void loop() {
         setHue(6, hueOnOff, HueRed, 255, 255);
         delay(10000);
 
-        roll=14;
+  
     }
 
 
 
     if(roll==14) {
+		//TURN OFF WEMO SWITCH IF IT'S ON
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 //14 Orange & Purple Lights
 //OLED DISPLAY
         myDisplay.setRotation(2); //0-3
@@ -2645,12 +2805,16 @@ void loop() {
         setHue(6, hueOnOff, HueRed, 255, 255);
         delay(10000);
 
-        roll=15;
+        
     }
 
 
 
     if(roll==15) {
+		//TURN OFF WEMO SWITCH IF IT'S ON
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 //15 Magenta, Pink, and Orange Lights
 //OLED DISPLAY
         myDisplay.setRotation(2); //0-3
@@ -2694,12 +2858,16 @@ void loop() {
         setHue(6, hueOnOff, HueRed, 255, 255);
         delay(10000);
 
-        roll=16;
+        
     }
 
 
 
     if(roll==16) {
+		//TURN OFF WEMO SWITCH IF IT'S ON
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 //16 Green Lights
 //OLED DISPLAY
         myDisplay.setRotation(2); //0-3
@@ -2743,12 +2911,16 @@ void loop() {
         setHue(6, hueOnOff, HueRed, 255, 255);
         delay(10000);
 
-        roll=17;
+        
     }
 
 
 
     if(roll==17) {
+		//TURN OFF WEMO SWITCH IF IT'S ON
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 //17 Green & Yellow Lights
 //OLED DISPLAY
         myDisplay.setRotation(2); //0-3
@@ -2792,12 +2964,15 @@ void loop() {
         setHue(6, hueOnOff, HueRed, 255, 255);
         delay(10000);
 
-        roll=18;
     } 
 
 
 
     if(roll==18) {
+		//TURN OFF WEMO SWITCH IF IT'S ON
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 //18 Blue & Green Lights
 //OLED DISPLAY
         myDisplay.setRotation(2); //0-3
@@ -2841,12 +3016,16 @@ void loop() {
         setHue(6, hueOnOff, HueRed, 255, 255);
         delay(10000);
 
-        roll=19;
+   
     }
 
 
 
     if(roll==19) {
+		//TURN OFF WEMO SWITCH IF IT'S ON
+        Serial.printf("Turniing off MRWEMO #%i\n", MRWEMO);
+        switchOFF(MRWEMO);
+        delay(10000);
 //19 Magenta, Purple & Green Lights
 //OLED DISPLAY
         myDisplay.setRotation(2); //0-3
@@ -2890,7 +3069,7 @@ void loop() {
         setHue(6, hueOnOff, HueRed, 255, 255);
         delay(10000);
 
-        roll=20;
+       ;
     } 
 
 
@@ -2911,10 +3090,11 @@ void loop() {
 //TURNING ON AND OFF THE WEMO OUTLETS
     Serial.printf("Turniing on MSWEMO #%i\n", MSWEMO);
     switchON(MSWEMO);
-    delay(10000);
-    Serial.printf("Turniing off MSWEMO #%i\n", MSWEMO);
-    switchOFF(MSWEMO);
-    delay(10000);
+    // delay(10000);
+//COMMENT OUT BELOW TO LEAVE SWITCH ON UNTIL THE NEXT ROLL IS MADE
+    // Serial.printf("Turniing off MSWEMO #%i\n", MSWEMO);
+    // switchOFF(MSWEMO);
+    // delay(10000);
 
 //HUE SETTINGS
 //20 Rainbow Lights, random colors, excitement!
@@ -2956,4 +3136,34 @@ void loop() {
 
 }
 
+}
+
+//FUNCTION DEFINITIONS
+char getSideRolled (int cell) {
+	char letterValue[20]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T'};
+	int sideRolled;
+	for(int v=0; v<NUMSIDES; v++) {
+		if(cell==v) {
+			sideRolled = v;
+		}
+	}
+			//PRINT SIDE ROLLED (letter)
+
+		// myDisplay.setRotation(2); 
+		// myDisplay.setCursor(8,1);
+		// myDisplay.setTextSize(3);
+		// myDisplay.setTextColor(WHITE);
+		// myDisplay.printf("%c",letter);
+		// Serial.printf("%c\n", letter);
+		// myDisplay.display();
+		// delay(3000);
+		// myDisplay.clearDisplay();
+		//set NeoPixel light indicator to flash green indicating ready for next roll
+		pixel.setBrightness(100);
+		pixel.setPixelColor(0, green);
+		pixel.show();
+		delay(3000);
+		pixel.clear();
+
+	return(letterValue[sideRolled]);
 }
