@@ -1,35 +1,68 @@
-# smart-room-controller-DnD-20-sided-die-KD-Neeley
+# Smart-Room-Controller
+# Project Title
+This project was my Midterm assignment for Brian Rashap's course at the FUSE Makerspace, 'The Internet of Things'. It needs a lot more work to be truly complete. The code is very wet and needs a lot of improvement. I will be updating it in the future. We were given four days to build a custom smart room controller. Mine took the form of a D20 to influence the atmosphere during DnD gameplay. The code can be used to tell the smart room controller what to do. You can turn on smart outlets and control smart lights.
 
-A Particle project named smart-room-controller-DnD-20-sided-die-KD-Neeley
+# Motivation
+I play DnD every other Saturday with friends. I was inspired by my expereinces playing the game to create this interactive D20 that can influence the atmosphere during gameplay. I imagine that it can do so much more too, with an app in the future to track rolls and influence the game for the DM. 
 
-## Welcome to your project!
+#Build Status
+The current build, let's call it Version 1.0, needs much work. A header file can be created to store the bitmaps, and functions can be written to clean up the wet code. It is functional, but even the baseline values for determining die rolls need work. That is something that needs to be done for everyone uniquely as each accelerometer will have slightly different measurements. I want to find the median for each of the side coordinates to get more accurate roll results. As it stands, it sometimes thinks a side is one of its partners or opposite sides. 
 
-Every new Particle project is composed of 3 important elements that you'll see have been created in your project directory for smart-room-controller-DnD-20-sided-die-KD-Neeley.
+# Code Style
+The code is written in C++.
 
-#### ```/src``` folder:  
-This is the source folder that contains the firmware files for your project. It should *not* be renamed. 
-Anything that is in this folder when you compile your project will be sent to our compile service and compiled into a firmware binary for the Particle device that you have targeted.
+# Screenshots
+https://www.youtube.com/watch?v=eOC_jv2n0Ek – automatic! [YouTube](http://YouTube.com) 
 
-If your application contains multiple files, they should all be included in the `src` folder. If your firmware depends on Particle libraries, those dependencies are specified in the `project.properties` file referenced below.
+# Tech/Framework used
+## installed Libraries:
+    - Adafruit_SSD1306
+    - IoTClassroom_CNM
+    - MPU6050_CNM
+    - colors.h
 
-#### ```.ino``` file:
-This file is the firmware that will run as the primary application on your Particle device. It contains a `setup()` and `loop()` function, and can be written in Wiring or C/C++. For more information about using the Particle firmware API to create firmware for your Particle device, refer to the [Firmware Reference](https://docs.particle.io/reference/firmware/) section of the Particle documentation.
+## Hardware Used
+    - Argon Microcontroller
+    - MPU 6050 Accelerometer and Gyroscope
+    - Neopixel
+    - 3.3V rechargeable Lithium Ion Battery
 
-#### ```project.properties``` file:  
-This is the file that specifies the name and version number of the libraries that your project depends on. Dependencies are added automatically to your `project.properties` file when you add a library to a project using the `particle library add` command in the CLI or add a library in the Desktop IDE.
+# Features
+Features code that can turn a smart light on or off, change their color, and brightness. 
+Features code that can turn NeoPixels on or off, change their color, and brightness.
+Features code that can turn a smart outlet (WEMO) on or off.
+Features Bitmaps and text messages for OLED display, these can be customized.
+Features code that can determine the side rolled for a D20 holding the accelermoter MPU6050 and Argon Microcontroller.
+Features a design caseing for the die that can fit the components inside, with a lid that snaps shut. 
+Features holes in the lid for USB charging port, and OLED display pins.
+Die sides can be customized, and the die can be weighted if you desire it.
+Features an inlay on the cover that fits the OLED display so it doesn't get smashed when rolling the die.
+Features that need work: Code and header files need refactoring. The lid needs work, it has an edge that juts into the body and won't allow for closure without using a dremel on the final print to level it out.
+Lid can be screwed shut with small electronics screws and a tiny drill bit. Countersink the holes in the lid to keep the die level.
+Needs interior casing to hold the inner components so they don't roll around and throw off the accelerometer. This is just a prototype, but the final die will allow for the inner components to be rolled and banged around without a care.
 
-## Adding additional files to your project
+# Code Examples
+coming soon
 
-#### Projects with multiple sources
-If you would like add additional files to your application, they should be added to the `/src` folder. All files in the `/src` folder will be sent to the Particle Cloud to produce a compiled binary.
+# Installation
+I've written the program and done edits in Visual Studio Code. There is a free version here: 
+https://code.visualstudio.com/ – automatic! [Visual Studio Code](https://code.visualstudio.com/) 
 
-#### Projects with external libraries
-If your project includes a library that has not been registered in the Particle libraries system, you should create a new folder named `/lib/<libraryname>/src` under `/<project dir>` and add the `.h`, `.cpp` & `library.properties` files for your library there. Read the [Firmware Libraries guide](https://docs.particle.io/guide/tools-and-features/libraries/) for more details on how to develop libraries. Note that all contents of the `/lib` folder and subfolders will also be sent to the Cloud for compilation.
 
-## Compiling your project
+# Tests
+coming soon
 
-When you're ready to compile your project, make sure you have the correct Particle device target selected and run `particle compile <platform>` in the CLI or click the Compile button in the Desktop IDE. The following files in your project folder will be sent to the compile service:
+# Contribute
+Feel free to contribute to this project and share your own D20 builds.
+You can clone the git repository, or branch off of it, or write your own code from scratch.
+Credit to Katie Neeley as the original designer of the prototype is appreciated.
 
-- Everything in the `/src` folder, including your `.ino` application file
-- The `project.properties` file for your project
-- Any libraries stored under `lib/<libraryname>/src`
+# Credits
+Thanks to Brian Rashap for:
+    The IoTClassroom_CNM library package
+    The MPU6050_CNM header file and example code
+    The colors.h header file
+    The assignment
+
+# License
+MIT
